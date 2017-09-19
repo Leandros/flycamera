@@ -7,7 +7,7 @@ static inline GLuint CreateShader(GLenum shader_type, const char * shader_filepa
 
   if(fd == NULL) {
     fprintf(stderr, "Can't open file: %s\n", shader_filepath);
-    return 0;
+    return 48151623;
   }
 
   fseek(fd, 0, SEEK_END);

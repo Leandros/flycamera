@@ -32,22 +32,25 @@ int main() {
     fprintf(stderr, "GLAD can't load OpenGL\n");
     return 1;
   }
-  
+
+  glViewport(0, 0, 1280, 720);
+
   GLuint vao = 0;
-  GLuint mesh_buffer = 0;
-  GLuint mesh_pipeline = 0;
-
   glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
+  glEnableVertexAttribArray(0);
+
+  char vert_path[10000] = {0};
+  char frag_path[10000] = {0};
+  SDL_snprintf(vert_path, 10000, "%s%s", SDL_GetBasePath(), "vs.vert");
+  SDL_snprintf(frag_path, 10000, "%s%s", SDL_GetBasePath(), "fs.frag");
+  GLuint program = CreateProgram(vert_path, frag_path);
+
+  GLuint mesh_buffer = 0;
   glGenBuffers(1, &mesh_buffer);
-
-  GLuint program = CreateProgram("vs.vert", "fs.frag");
-
   glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer);
   glBufferData(GL_ARRAY_BUFFER, sizeof(mesh), mesh, GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  glBindVertexArray(vao);
-  glEnableVertexAttribArray(0);
 
   glClearColor(168 / 255.f, 204 / 255.f, 207 / 255.f, 1.f);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
